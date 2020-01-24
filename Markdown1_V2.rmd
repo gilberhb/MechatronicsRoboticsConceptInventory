@@ -157,5 +157,5 @@ likert.bar.plot(likert(summary = bottom_results), center=3, ordered=TRUE) + ggti
 ```
 ```{r fig-all-concepts, fig.width=11, fig.height=35}
 par(mai=c(0.5,5,0.5,2))
-likert.bar.plot(lall_topics, center=3, ordered=TRUE,wrap=200) + ggtitle("All topics") + theme_classic() + theme(axis.text.y = element_text(hjust=1,size=8))
+likert.bar.plot(lall_topics, center=3, ordered=TRUE,wrap=200) + ggtitle("All topics") + theme_classic() + theme(axis.text.y = element_text(hjust=1,size=10))
 ```
