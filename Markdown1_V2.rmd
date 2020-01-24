@@ -92,31 +92,70 @@ likert.bar.plot(likert_escience, center=3) + ggtitle("Engineering Science") + th
 
 ```
 
-# Importance of basic courses
+# Importance - Basic science courses
 
-```{r fig-basic-courses, fig.width=8, fig.height=3}
+```{r fig-basic-courses, fig.width=9, fig.height=2}
 course_items <- T[,5:9]
+names(course_items) <- c("Chemistry","Physics - Mechanics","Physics - Electromagnetics","Physics - Optics","Physics - Quantum Mechanics")
 course_basic <- likert(course_items)
-likert.bar.plot(course_basic, center=3) + ggtitle("Course Items") + theme_classic() + theme(plot.margin=unit(c(0,0,0,0),"cm"))
+likert.bar.plot(course_basic, center=3) + ggtitle("Science Courses") + theme_classic() + theme(plot.margin=unit(c(0,0,0,0),"cm"))
+```
+
+# Importance - Basic math courses
+
+```{r fig-basic-math, fig.width=9, fig.height=3}
+course_items <- T[,10:18]
+names(course_items) = c("Single Variable Calculus","Multivariate Calculus","Ordinary Differential Equations","Partial Differential Equations","Linear Algebra","Numerical Methods","Complex Analysis","Statistics","Discrete Mathematics")
+course_math <- likert(course_items)
+likert.bar.plot(course_math, center=3) + ggtitle("Math Courses") + theme_classic() + theme(plot.margin=unit(c(0,0,0,0),"cm"))
+```
+
+# Importance - Engineering 1 
+```{r fig-eng1, fig.width=9, fig.height=3.5}
+course_items <- T[,19:30]
+names(course_items) <- c("Engineering Economics","Engineering Graphics","Statics","Dynamics","Kinematics","Strength of Materials","Machine Design","Material Science","Thermodynamics","Heat Transfer","Fluid Mechanics","Actuators")
+course_eng1 <- likert(course_items)
+likert.bar.plot(course_eng1, center=3) + ggtitle("Engineering 1 Courses") + theme_classic() + theme(plot.margin=unit(c(0,0,0,0),"cm"))
+```
+
+# Importance - Engineering 2
+```{r fig-eng2, fig.width=9, fig.height=3}
+course_items <- T[,31:39]
+names(course_items) <- c("Dynamic Systems","Control Systems","Instrumentation","Sensor Design","AI and Machine Learning","Machine Vision","Signals and Systems","Communication Systems","Embedded Systems")
+course_eng2 <- likert(course_items)
+likert.bar.plot(course_eng2, center=3) + ggtitle("Engineering 2 Courses") + theme_classic() + theme(plot.margin=unit(c(0,0,0,0),"cm"))
+```
+
+# Importance - Engineering 3
+```{r fig-eng3, fig.width=9, fig.height=4.5}
+course_items <- T[,40:58]
+names(course_items) <- c("Programmable Logic Controllers","Procedural Programming","Object-oriented Programming","Hardware Description Languages","Data Structures","Complexity Analysis","Computer Architecture","Formal Languages & Automata Theory","Operating Systems","DC Circuits","AC Circuits","Analog Electronics","Digital Electronics","Power Electronics","Semiconductor Materials and Devices","Electric Machines","Electromagnetics","Real-Time Programming","Networking")
+course_eng3 <- likert(course_items)
+likert.bar.plot(course_eng3, center=3) + ggtitle("Engineering 3 Courses") + theme_classic() + theme(plot.margin=unit(c(0,0,0,0),"cm"))
 ```
 
 # What are the top and bottom ranked concepts?
 
-```{r figs-concept-rankings, fig.width=9, fig.height=5}
-all_other <- T[,10:238]
-likert_other <- likert(all_other)
+```{r figs-concept-rankings, fig.width=11, fig.height=4}
+all_topics <- T[,59:238]
+names(all_topics) <- c("Atomic structure","Periodic table","Chemical bonding","Stoichiometry","Gas laws","Intermolecular forces","Newton's laws of motion","Gravity","Fixed-axis rotations","Conservation of energy","Conservation of momentum","Harmonic oscillation","Collisions","Impulse-momentum principle","Work-energy principle","Electric and magnetic fields","Dielectric materials","Magnetic materials","Circuits","Faraday's law","Lorentz force","Maxwell's equations","Refraction","Interference","Diffraction","Imaging","Limits","Derivatives","Integrals","Three-dimensional analytic geometry","Partial derivatives","Multiple integrals","Gauss' theorem","Stokes' theorem","Linear and nonlinear differential equations","Laplace transform","First-order equations","Second-order equations","State-space systems","Heat equation","Wave equation","Laplace's equation","Green's functions","Systems of linear equations","Row reduction, Echelon forms","Gram-Schmidt","Matrix operations, Matrix inverse","Block matrices","Linear dependence, Linear independence","Subspaces, bases, and dimensions","Orthogonal bases, projections","Determinants","Eigenvalues and eigenvectors","Diagnolization","Special matrices - symmetric, positive definite, etc","Similar matrices","Linear transformations","Singular value decomposition","Series expansion","Root-finding - Newton-Raphson, binary search, etc","Integration, Runge-Kutta","Interpolation","Fast Fourier transfrom","Least squares","Principal component analysis","Partial differential equations - finite element method","Complex numbers","Analytic functions","Complex integrals","Complex series","Residues and poles","Probability","Probability density functions","Moments","Hypothesis testing","Net present value","Future worth","Rate of return","Breakeven analysis","Amortization","Depreciation","Financial projections","Sectional views","Dimensioning and tolerancing","Assemblies","Parametric solid modeling","Statically determinate equilibirum","Center of gravity","Friction","Stress & Strain","Statically indeterminate problems","Torsion","Bending","Particle kinematics","Particle kinetics","Rigid body kinematics","Rigid body kinetics","3D dynamics - numerical","Constraints","Gears","Cams","Serial mechanisms","Parallel mechanisms","Machinery","Forward kinematics","Inverse kinematics","Stress analysis","Deflection and stiffness","Static loading","Dynamic loading and fatigue","Fasteners","Welded joints","Springs","Bearings","Clutches","Brakes","Belts and pulleys","Measurement theory","Error estimation","Error propogation","Instrumentation specifications","Data acquisition","Signal conditioning","Handling digital data","Phases and phase diagrams","Metals and alloys","Engineering material selection","Plastics","Rubbers","Ceramics","Control volumes","Properties of substances","Work and heat","1st and 2nd laws of thermodynamics","Power and refrigeration cycles","Water-vapor mixtures","Combustion","Conduction","Radiation","Convection","Fluid statics, kinematics, and dynamics","Conservation laws","Integral analysis (Fluids)","Differential analysis and similarity","Internal and external viscous flows","Compressible flows and drag","LTI systems","Analogies between energy domains","Multi-energy domain systems","Causal models","Block diagrams","Acausal models, differential algebraic systems","Vibration","Continuous and discrete time systems (Controls)","Feedback control","Stability criteria","Frequency response","Frequency domain compensation","PID control","Filtering and filter design","Fourier transform","Modulation","Sampling theory","Serial vs parallel communication","Asynchronous serial communication","Synchronous ommunication","Continuous and discrete time systems (Signals & Systems)","Regression analysis","Classification methods","Dimensionality reduction","Clustering","Reinforcement learning","Supervised learning","Image models","Feature extraction","Camera calibration","Stereo vision","Photogrammetry","Motion detection and object tracking","Biomedical imaging")
+lall_topics <- likert(all_topics)
 
-df <- likert_other$results
+df <- lall_topics$results
 ii <- order(df$`5 - Extremely Important` + df$`4 - Important`, decreasing=TRUE)
 
 ordered_results <- df[ii,]
 
-top_results <- ordered_results[1:20,]
+top_results <- ordered_results[1:10,]
 top_results$Item <- factor(top_results$Item)
-bottom_results <- ordered_results[(nrow(ordered_results)-19):nrow(ordered_results),]
+bottom_results <- ordered_results[(nrow(ordered_results)-9):nrow(ordered_results),]
 bottom_results$Item <- factor(bottom_results$Item)
 
 
 likert.bar.plot(likert(summary = top_results), center=3, ordered=TRUE) + ggtitle("Top results") + theme_classic() 
 likert.bar.plot(likert(summary = bottom_results), center=3, ordered=TRUE) + ggtitle("Bottom results") + theme_classic()
+```
+```{r fig-all-concepts, fig.width=11, fig.height=35}
+par(mai=c(0.5,5,0.5,2))
+likert.bar.plot(lall_topics, center=3, ordered=TRUE,wrap=200) + ggtitle("All topics") + theme_classic() + theme(axis.text.y = element_text(hjust=1,size=8))
 ```
