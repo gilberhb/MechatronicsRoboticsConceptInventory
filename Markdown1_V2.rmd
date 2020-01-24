@@ -1,0 +1,116 @@
+---
+title: "Data Analysis (Mechatronics and Robotics Concept Inventory)"
+output:
+  
+  html_document: default
+  pdf_document: default
+  word_document: 
+    fig_width: 6.5
+    fig_height: 4
+---
+
+```{r, echo=FALSE, message=FALSE}
+library(dplyr)
+library(data.table)
+library(knitr)
+require(likert)
+opts_knit$set(global.par=TRUE)
+```
+
+```{r}
+T <- read.csv("Responses.csv", stringsAsFactors = FALSE)
+#replace blank elements with NA
+for (i in names(T)) {
+    T[[i]][T[[i]] == ""] = NA
+}
+```
+
+```{r}
+#there are two responses which indicated both Academic and Industry, so they are
+#classified one as Industry and one as Academic as shown below. The person classified as industry is
+#an adjunct faculty member with industry experience. The other indicates a teaching and research position,
+#so it's not clear what to do with this one.
+T$role[T$role == "Academic Administrator"] = "Academic"
+T$role[T$role == "Faculty, 50/50 research and teaching"] = "Academic"
+T$role[T$role == "Faculty, primary focus is research"] = "Academic"
+T$role[T$role == "Faculty, primary focus is research, Faculty, 50/50 research and teaching"] = "Academic"
+T$role[T$role == "Faculty, primary focus is research, Faculty, primary focus is teaching, Faculty, 50/50 research and teaching"] = "Academic"
+T$role[T$role == "Faculty, primary focus is teaching"] = "Academic"
+T$role[T$role == "Faculty, 50/50 research and teaching, Industry"] = "Academic"
+T$role[T$role == "Faculty, primary focus is teaching, Industry, only adjunct faculty"] = "Industry"
+T$role[T$role == "Industry, Alumni"] = "Industry"
+T$role[T$role == "Industry, Student (graduate)"] = "Industry"
+T$role[T$role == "Researcher at a Research Center which is not a university (TNO)"] = "Industry"
+T$role[T$role == "Staff 50/50 teaching and maintaining lab. "] = "Academic"
+T$role[T$role == "Student (graduate)"] = "Student (G)"
+T$role[T$role == "Student (undergraduate)"] = "Student (UG)"
+T$role = factor(T$role) #extract factors
+```
+
+```{r}
+#convert expertise to an integer-valued factor label
+T$expertise <- factor(T$expertise, levels = c("Mechatronics and Robotics", "Mechatronics", "Robotics", "Neither Mechatronics nor Robotics"))
+
+#convert date
+#T$timestamp <- as.POSIXct(T$timestamp, format = "%m/%d/%Y %H:%M")
+
+#convert engineering science question to nuemric data
+T$escience <- factor(T$escience, levels = c("Strongly Disagree", "Somewhat Disagree", "Neutral", "Somewhat Agree", "Strongly Agree"))
+```
+
+```{r}
+#convert characters to integer-coded factors using the defined levels
+cols = names(T)
+for (i in cols[5:238]) {
+    T[[paste(i)]] <- factor(T[[paste(i)]], levels = c("1 - Not Relevant", "2 - Unimportant", "3 - Neutral", "4 - Important", "5 - Extremely Important"))
+}
+
+
+T <- data.table(T)
+```
+
+# How do people feel about emphasizing computational techniques?
+
+The mean response of undergraduate students is significantly different from the baseline case of academics. There were no significant differences found between Academic and Industry responses or between Academic and Graduate Student responses.
+```{r}
+summary(lm(data = T, formula = as.double(escience) ~ role, na.action = na.omit))
+```
+Graphically depicted as stacked bar charts:
+
+```{r fig-escience, fig.width=8, fig.height=3}
+escience <- T[,4]
+names(escience)=c("Engineering Science - Computational Techniques")
+likert_escience = likert(items=escience, grouping=T$role)
+
+likert.bar.plot(likert_escience, center=3) + ggtitle("Engineering Scinece") + theme_classic() + theme(plot.margin=unit(c(0.5,0.5,0.5,0.5),"cm"))
+
+```
+
+# Importance of basic courses
+
+```{r fig-basic-courses, fig.width=8, fig.height=3}
+course_items <- T[,5:9]
+course_basic <- likert(course_items)
+likert.bar.plot(course_basic, center=3) + ggtitle("Course Items") + theme_classic() + theme(plot.margin=unit(c(0,0,0,0),"cm"))
+```
+
+# What are the top and bottom ranked concepts?
+
+```{r figs-concept-rankings, fig.width=9, fig.height=5}
+all_other <- T[,10:238]
+likert_other <- likert(all_other)
+
+df <- likert_other$results
+ii <- order(df$`5 - Extremely Important` + df$`4 - Important`, decreasing=TRUE)
+
+ordered_results <- df[ii,]
+
+top_results <- ordered_results[1:20,]
+top_results$Item <- factor(top_results$Item)
+bottom_results <- ordered_results[(nrow(ordered_results)-19):nrow(ordered_results),]
+bottom_results$Item <- factor(bottom_results$Item)
+
+
+likert.bar.plot(likert(summary = top_results), center=3, ordered=TRUE) + ggtitle("Top results") + theme_classic() 
+likert.bar.plot(likert(summary = bottom_results), center=3, ordered=TRUE) + ggtitle("Bottom results") + theme_classic()
+```
