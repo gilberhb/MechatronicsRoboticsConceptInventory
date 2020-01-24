@@ -7,6 +7,12 @@ output:
   word_document: 
     fig_width: 6.5
     fig_height: 4
+
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 ---
 
 ```{r, echo=FALSE, message=FALSE}
