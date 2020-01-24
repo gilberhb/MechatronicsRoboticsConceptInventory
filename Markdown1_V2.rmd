@@ -88,7 +88,7 @@ escience <- T[,4]
 names(escience)=c("Engineering Science - Computational Techniques")
 likert_escience = likert(items=escience, grouping=T$role)
 
-likert.bar.plot(likert_escience, center=3) + ggtitle("Engineering Scinece") + theme_classic() + theme(plot.margin=unit(c(0.5,0.5,0.5,0.5),"cm"))
+likert.bar.plot(likert_escience, center=3) + ggtitle("Engineering Science") + theme_classic() + theme(plot.margin=unit(c(0.5,0.5,0.5,0.5),"cm"))
 
 ```
 
